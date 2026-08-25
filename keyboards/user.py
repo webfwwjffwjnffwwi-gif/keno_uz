@@ -1,6 +1,5 @@
-from telegram.inlinekeyboardbuilder import InlineKeyboardBuilder
-from telegram.replykeyboardbuilder import ReplyKeyboardBuilder
-from telegram import InlineKeyboardButton, KeyboardButton
+from aiogram.utils.keyboard import InlineKeyboardBuilder, ReplyKeyboardBuilder
+from aiogram.types import InlineKeyboardButton, KeyboardButton
 
 def get_main_menu_keyboard():
     builder = ReplyKeyboardBuilder()
