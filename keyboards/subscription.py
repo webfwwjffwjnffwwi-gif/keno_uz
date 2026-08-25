@@ -1,12 +1,15 @@
-from telegram.inlinekeyboardbuilder import InlineKeyboardBuilder
-from telegram import InlineKeyboardButton
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
-def get_subscription_keyboard(subs: list):
-    builder = InlineKeyboardBuilder()
-    for sub in subs:
-        url = f"https://t.me/{sub.channel_username.replace('@', '')}" if sub.platform == 'telegram' else sub.channel_username
-        btn_text = f"📢 {sub.channel_username}"
-        builder.row(InlineKeyboardButton(text=btn_text, url=url))
+def get_subscription_keyboard(channel_username: str = None):
+    keyboard = []
     
-    builder.row(InlineKeyboardButton(text="🔄 Obunani tekshirish", callback_data="check_subscription"))
-    return builder.as_markup()
+    if channel_username:
+        keyboard.append([
+            InlineKeyboardButton(text="📢 Kanalga obuna bo'lish", url=f"https://t.me/{channel_username}")
+        ])
+    
+    keyboard.append([
+        InlineKeyboardButton(text="✅ Obunani tekshirish", callback_data="check_subscription")
+    ])
+    
+    return InlineKeyboardMarkup(keyboard)
