@@ -23,8 +23,8 @@ async def post_init(application: Application):
         await init_db()
         logger.info("Ma'lumotlar bazasi muvaffaqiyatli ulandi va jadvallar yaratildi.")
     except Exception as e:
-        logger.error(لf"Bazani ishga tushirishda xatolik: {e}")
-
+        logger.error(f"Bazani ishga tushirishda xatolik: {e}")
+        
 async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE):
     """Bot ichida qandaydir xatolik ketsa, uni ushlab logga yozish (bot jim qolishining oldini oladi)"""
     logger.error(msg="Xatolik yuz berdi:", exc_info=context.error)
