@@ -21,21 +21,24 @@ def main():
         logger.error("BOT_TOKEN topilmadi! .env faylini tekshiring.")
         return
 
+    # Botni yaratish
     application = Application.builder().token(BOT_TOKEN).post_init(post_init).build()
 
-    # Handlers
+    # Handlers (Buyruqlar)
     application.add_handler(CommandHandler("start", start_command))
     application.add_handler(CommandHandler("admin", admin_command))
     
-    # Callbacks
+    # Callbacks (Tugmalar uchun)
     application.add_handler(CallbackQueryHandler(check_sub_callback, pattern="^check_subscription$"))
     application.add_handler(CallbackQueryHandler(admin_panel_callback, pattern="^(admin_|back_to_main)"))
     
-    # Text messages
+    # Text messages (Oddiy matnli xabarlar uchun)
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text_messages))
 
-    logger.info("Bot ishga tushdi...")
-    application.run_polling()
+    logger.info("Bot ishga tushdi va xabarlarni qabul qilmoqda...")
+    
+    # Botni doimiy ishda ushlab turish (Polling)
+    application.run_polling(drop_pending_updates=True)
 
 if __name__ == "__main__":
     main()
