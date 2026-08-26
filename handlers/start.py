@@ -22,8 +22,7 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         is_subscribed = await check_user_subscriptions(context.bot, user.id)
     except Exception as e:
         logger.error(f"Obunani tekshirishda xatolik: {e}")
-        is_subscribed = True  agar xatolik bo'lsa, foydalanuvchini to'xtatib qo'ymaslik uchun True deb olamiz
-
+        is_subscribed = True  # agar xatolik bo'lsa, foydalanuvchini to'xtatib qo'ymaslik uchun True deb olamiz
     try:
         if not is_subscribed:
             subs = await get_active_subscriptions()
