@@ -1,13 +1,13 @@
 from datetime import datetime
-from sqlalchemy import Column, BigInteger, String, Boolean, DateTime, Float, ForeignKey, Text
+from sqlalchemy import Column, BigInteger, String, Boolean, DateTime, Float
 from db import Base
 
 class User(Base):
     __tablename__ = "users"
     __table_args__ = {'extend_existing': True}
 
-    id = Column(BigInteger, primary_key=True, index=True) # Telegram User ID
-    telegram_id = Column(BigInteger, unique=True, nullable=True)
+    id = Column(BigInteger, primary_key=True, autoincrement=True)
+    telegram_id = Column(BigInteger, unique=True, nullable=False)
     full_name = Column(String, nullable=True)
     username = Column(String, nullable=True)
     first_name = Column(String, nullable=True)
