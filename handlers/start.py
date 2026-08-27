@@ -24,11 +24,11 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     await update.message.reply_text(
         f"👋 Assalomu alaykum, {user.first_name}!\n\n"
-        f"Botdan foydalanish uchun avval Instagram sahifamizga obuna bo'ling va so'ng **"✅ Obuna bo'ldim"** tugmasini bosing:",
+        f"Botdan foydalanish uchun avval Instagram sahifamizga obuna bo'ling va so'ng *Obuna bo'ldim* tugmasini bosing:",
         reply_markup=reply_markup,
         parse_mode="Markdown"
     )
-
+    
 async def check_insta_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
