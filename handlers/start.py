@@ -1,5 +1,3 @@
-from aiogram import types # yoki telegram.ext (PTB versiyasiga qarab)
-# Biz python-telegram-bot (v20+) ishlatayotganimiz uchun quyidagicha yozamiz:
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import ContextTypes
 from config import CHANNEL_USERNAME
@@ -20,7 +18,7 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     bot = context.bot
     
-    # Bazaga foydalanuvchini saqlash (Agar yo'q bo'lsa)
+    # Bazaga foydalanuvchini saqlash
     async with async_session() as session:
         result = await session.execute(select(User).where(User.telegram_id == user.id))
         db_user = result.scalar_one_or_none()
@@ -29,11 +27,9 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
             session.add(new_user)
             await session.commit()
 
-    # Obunani tekshiramiz
     is_subscribed = await check_user_subscription(bot, user.id)
     
     if not is_subscribed:
-        # Obuna bo'lmasa, kanalga o'tish tugmasini beramiz
         keyboard = [
             [InlineKeyboardButton("📢 Kanalga a'zo bo'lish", url=f"https://t.me/{CHANNEL_USERNAME.replace('@', '')}")],
             [InlineKeyboardButton("✅ Obunani tekshirish", callback_data="check_subscription")]
@@ -45,20 +41,19 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_markup=reply_markup
         )
     else:
-        # Obuna bo'lgan bo'lsa, asosiy menyuni chiqarish
         await send_main_menu(update)
 
 async def send_main_menu(update: Update):
-    """Asosiy menyuni yuborish"""
-    # Pastki (Reply) tugmalar menyusi
+    """Yangi tartibdagi asosiy menyu"""
     keyboard = [
-        [KeyboardButton("🎵 Qo'shiq topish")]
+        [KeyboardButton("🎵 Qo'shiq topish"), KeyboardButton("📢 Reklama berish")],
+        [KeyboardButton("👤 Profil"), KeyboardButton("ℹ️ Yordam")]
     ]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
     
     text = (
         "🤖 **Keno Uz** botiga xush kelibsiz!\n\n"
-        "Qo'shiq qidirish uchun quyidagi tugmani bosing yoki YouTube/Instagram havolasini yuboring 🎧"
+        "Kerakli bo'limni tanlang yoki YouTube / Instagram havolasini yuboring 🎧"
     )
     
     if update.message:
