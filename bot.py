@@ -20,7 +20,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ==========================================
-# RENDER WEB SERVICE UCHUN PORT FIX
+# RENDER WEB SERVICE UCHUN PORT FIX (Server o'chib qolmasligi uchun)
 # ==========================================
 PORT = int(os.environ.get("PORT", 8080))
 
@@ -42,6 +42,7 @@ def run_health_server():
     except Exception as e:
         logger.error(f"Veb-serverni ishga tushirishda xatolik: {e}")
 
+# Veb-serverni alohida oqimda (thread) ishga tushiramiz ki bot bilan birga ishlayversin
 server_thread = threading.Thread(target=run_health_server, daemon=True)
 server_thread.start()
 # ==========================================
@@ -55,23 +56,26 @@ async def post_init(application: Application):
         logger.error(f"Bazani ishga tushirishda xatolik: {e}")
         
 async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE):
-    """Xatoliklarni ushlab qolish"""
+    """Xatoliklarni ushlab qolish va logga yozish"""
     logger.error(msg="Xatolik yuz berdi:", exc_info=context.error)
 
 def main():
     if not BOT_TOKEN:
-        logger.error("XATOLIK: BOT_TOKEN topilmadi!")
+        logger.error("XATOLIK: BOT_TOKEN topilmadi! .env yoki Render environment variables tekshiring.")
         return
 
+    # Botni yaratish
     application = Application.builder().token(BOT_TOKEN).post_init(post_init).build()
 
-    # --- HANDLERLAR ---
+    # --- HANDLERLAR (Buyruqlar va tugmalar) ---
     application.add_handler(CommandHandler("start", start_command))
     application.add_handler(CallbackQueryHandler(check_sub_callback, pattern="^check_subscription$"))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text_messages))
 
+    # Xatoliklarni boshqaruvchi
     application.add_error_handler(error_handler)
 
+    # Botni ishga tushirish
     logger.info("Keno Uz boti ishga tushdi va xabarlarni qabul qilmoqda...")
     application.run_polling(drop_pending_updates=True)
 
