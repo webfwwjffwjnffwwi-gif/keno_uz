@@ -7,6 +7,8 @@ class User(Base):
     __table_args__ = {'extend_existing': True}
 
     id = Column(BigInteger, primary_key=True, index=True) # Telegram User ID
+    telegram_id = Column(BigInteger, unique=True, nullable=True)
+    full_name = Column(String, nullable=True)
     username = Column(String, nullable=True)
     first_name = Column(String, nullable=True)
     last_name = Column(String, nullable=True)
@@ -21,10 +23,10 @@ class MandatorySubscription(Base):
     __table_args__ = {'extend_existing': True}
 
     id = Column(BigInteger, primary_key=True, autoincrement=True)
-    channel_username = Column(String, unique=True, nullable=False) # Masalan: @username yoki https://t.me/...
+    channel_username = Column(String, unique=True, nullable=False)
     channel_title = Column(String, nullable=True)
     channel_id = Column(BigInteger, nullable=True)
-    platform = Column(String, default="telegram") # telegram yoki instagram
+    platform = Column(String, default="telegram")
     is_active = Column(Boolean, default=True)
 
 class AuditLog(Base):
