@@ -6,8 +6,7 @@ class User(Base):
     __tablename__ = "users"
     __table_args__ = {'extend_existing': True}
 
-    id = Column(BigInteger, primary_key=True, autoincrement=True)
-    telegram_id = Column(BigInteger, unique=True, nullable=False)
+    telegram_id = Column(BigInteger, primary_key=True, unique=True, index=True)
     full_name = Column(String, nullable=True)
     username = Column(String, nullable=True)
     first_name = Column(String, nullable=True)
