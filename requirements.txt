@@ -2,3 +2,7 @@ python-telegram-bot==20.8
 SQLAlchemy==2.0.25
 asyncpg
 python-dotenv==1.0.1
+yt-dlp
+fastapi
+uvicorn
+requests
