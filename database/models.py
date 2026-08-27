@@ -4,6 +4,7 @@ from db import Base
 
 class User(Base):
     __tablename__ = "users"
+    __table_args__ = {'extend_existing': True}
 
     id = Column(BigInteger, primary_key=True, index=True) # Telegram User ID
     username = Column(String, nullable=True)
