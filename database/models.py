@@ -18,9 +18,10 @@ class User(Base):
 
 class MandatorySubscription(Base):
     __tablename__ = "mandatory_subscriptions"
+    __table_args__ = {'extend_existing': True}
 
     id = Column(BigInteger, primary_key=True, autoincrement=True)
-    channel_username = Column(String, unique=True, nullable=False) # Masalan: @Yoshlar_islohoti yoki https://t.me/...
+    channel_username = Column(String, unique=True, nullable=False) # Masalan: @username yoki https://t.me/...
     channel_title = Column(String, nullable=True)
     channel_id = Column(BigInteger, nullable=True)
     platform = Column(String, default="telegram") # telegram yoki instagram
@@ -28,6 +29,7 @@ class MandatorySubscription(Base):
 
 class AuditLog(Base):
     __tablename__ = "audit_logs"
+    __table_args__ = {'extend_existing': True}
 
     id = Column(BigInteger, primary_key=True, autoincrement=True)
     admin_id = Column(BigInteger, nullable=False)
